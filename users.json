@@ -1,0 +1,26 @@
+[
+    {
+        "username": "mohand",
+        "email": "mohand@gmail.com",
+        "password": "1234",
+        "userType": "manager"
+    },
+    {
+        "username": "ali",
+        "email": "ali@gmail.com",
+        "password": "123",
+        "userType": "manager"
+    },
+    {
+        "username": "robert",
+        "email": "robert@gmail.com",
+        "password": "1234",
+        "userType": "admin"
+    },
+    {
+        "username": "abood",
+        "email": "ab@gmail.com",
+        "password": "1234",
+        "userType": "manager"
+    }
+]

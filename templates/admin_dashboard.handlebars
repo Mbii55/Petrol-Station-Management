@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .capitalize-first {
+            text-transform: capitalize;
+        }
+
+        body {
+            overflow: hidden;
+            /* Hide scrollbars */
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body class="dark-theme">
+    <div class="wrapper d-flex flex-column">
+        {{#if message}}
+        <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{message}}
+                <button class="btn-close" type="button" data-coreui-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {{/if}}
+        <div class="callout callout-success">
+            Welcome <b class="capitalize-first">Mr. {{admin}}</b> to the dashboard 🫡, you can
+            view daily statistics for all stations here 😉
+        </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title mb-0">Monthly statistics for all stations (QAR)</h4>
+                        <div class="small text-medium-emphasis">January - December 2023</div>
+                    </div>
+
+                </div>
+                <div class="c-chart-wrapper" style="height:300px;margin-top:40px;">
+                    <canvas class="chart" id="my-chart" height="375"
+                        style="display: block; box-sizing: border-box; height: 300px; width: 860.8px;"
+                        width="1076"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" async>
+        async function showStatistics() {
+            let response = await fetch('/api/getStatistics')
+            let details = await response.json()
+            let dSet = []
+            let i = 0
+            for (let record of details) {
+                dSet.push({
+                    label: details[i].name,
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: details[i].data,
+                    fill: true
+                })
+                i++
+            }
+
+            const mainChart = new Chart(document.getElementById('my-chart'), {
+                type: 'line',
+
+                data: {
+                    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                    datasets: dSet
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                beginAtZero: true,
+                                maxTicksLimit: 5,
+                                stepSize: Math.ceil(250 / 5),
+                                max: 250
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.4
+                        },
+                        point: {
+                            radius: 0,
+                            hitRadius: 10,
+                            hoverRadius: 4,
+                            hoverBorderWidth: 3
+                        }
+                    }
+                }
+            });
+        }
+        showStatistics()
+    </script>
+
+</body>
+
+</html>

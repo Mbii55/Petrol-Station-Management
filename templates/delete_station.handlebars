@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="">
+</head>
+
+<body class="">
+    <div class="wrapper d-flex flex-column ">
+        <div class="card mb-4">
+            <div class="card-header">Available Stations</div>
+            <div class="card-body">
+                <div class="example">
+
+                    <div class="tab-content rounded-bottom">
+                        <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1000">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table class="table table-striped border datatable dataTable no-footer"
+                                            id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info"
+                                            style="border-collapse: collapse !important">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                        aria-sort="ascending"
+                                                        aria-label="Username: activate to sort column descending"
+                                                        style="width: 244.85px;">Name</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Date registered: activate to sort column ascending"
+                                                        style="width: 184.788px;">Manager</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Date registered: activate to sort column ascending"
+                                                        style="width: 184.788px;">Location</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Role: activate to sort column ascending"
+                                                        style="width: 90.7px;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each station}}
+                                                <tr>
+                                                    <td>{{this.stationName}}</td>
+                                                    <td>{{this.manager}}</td>
+                                                    <td>{{this.location}}</td>
+                                                    <td><button onclick="deleteRecord('{{this.stationName}}')"
+                                                            class="btn btn-danger">
+                                                            <svg class="icon">
+                                                                <use
+                                                                    xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-trash">
+                                                                </use>
+                                                            </svg></button>
+                                                    </td>
+                                                </tr>
+                                                {{/each}}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function deleteRecord(name) {
+            await fetch('/api/admin/delete-station', {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ stationName: name })
+            })
+
+            location.reload()
+        }
+    </script>
+</body>
+
+</html>

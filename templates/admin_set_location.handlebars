@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body class="">
+    <div class="wrapper d-flex flex-column ">
+        {{#if message}}
+        <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="fw-semibold">Holy guacamole!</div> {{message}} 😧
+                <button class="btn-close" type="button" data-coreui-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {{/if}}
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="dropdown-center" style="margin-left: 35%;">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-coreui-toggle="dropdown"
+                        aria-expanded="false" style=" width: 40%;">
+                        Relocate a Station
+                    </button>
+                    <ul class="dropdown-menu">
+                        {{#each stations}}
+                        <li><button class="btn btn-outline-info rounded-pill"
+                                style="display: flex; margin: 2% 1%; width: 98%;"
+                                onclick="getAllStation('{{this.manager}}')">{{this.stationName}}</button>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-body" id="stationDetails" style="display: none;">
+                <div class="example">
+                    <div class="tab-content rounded-bottom">
+                        <div class="tab-pane p-3 active preview" role="tabpanel">
+                            <div class="mb-3">
+                                <label class="form-label" for="newName" id="curr"></label>
+                                <input class="form-control" type="text" aria-label="Recipient's username"
+                                    aria-describedby="button-addon2" name="newName" aria-placeholder="currLocation"
+                                    id="currName" style="width:50%;"><br>
+                                <button type="button" class="btn btn-primary px-4"
+                                    onclick="updateStation()">Relocate</button>
+                                <br><br>
+                                <div class="mapouter" style="margin-left: 12%;">
+                                    <div class="gmap_canvas"><iframe width="805" height="578" id="gmap_canvas" src=""
+                                            frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                            href="https://online.stopwatch-timer.net/">timer stopwatch</a><br><a
+                                            href="https://www.onclock.net/"></a><br>
+                                        <style>
+                                            .mapouter {
+                                                position: relative;
+                                                text-align: right;
+                                                height: 578px;
+                                                width: 805px;
+                                            }
+                                        </style><a href="https://www.ongooglemaps.com">custom google maps embed</a>
+                                        <style>
+                                            .gmap_canvas {
+                                                overflow: hidden;
+                                                background: none !important;
+                                                height: 578px;
+                                                width: 805px;
+                                            }
+                                        </style>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentName = undefined
+        let mgr = undefined
+        let loc = undefined
+
+        async function getAllStation(manager) {
+            let stationD = await fetch(`/api/getStationDetails/${manager}`)
+            let details = await stationD.json()
+            currentName = details.stationName
+            mgr = details.manager
+            loc = details.location
+            document.getElementById('curr').innerHTML = "Relocate " + mgr + "'s station"
+            document.getElementById('currName').placeholder = currentName
+            document.getElementById('gmap_canvas').src = "https://maps.google.com/maps?q=woqod+" + loc + "&t=&z=11&ie=UTF8&iwloc=&output=embed"
+            document.getElementById('stationDetails').style.display = 'block';
+        }
+
+        async function updateStation() {
+            let newLoc = document.getElementById('currName').value
+            console.log(newLoc)
+            await fetch(`/api/updateLocation/${mgr}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ newLoc: newLoc })
+            })
+
+            location.reload()
+        }
+
+    </script>
+</body>
+
+</html>

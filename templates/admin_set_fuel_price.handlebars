@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            overflow: hidden;
+            /* Hide scrollbars */
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.min.js"></script>
+
+</head>
+
+<body class="">
+    <div class="wrapper d-flex flex-column ">
+        {{#if message}}
+        <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="fw-semibold">Holy guacamole!</div> {{message}} 😧
+                <button class="btn-close" type="button" data-coreui-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {{/if}}
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="dropdown-center" style="margin-left: 36%;">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-coreui-toggle="dropdown"
+                        aria-expanded="false" style=" width: 40%;">
+                        Select a Station
+                    </button>
+                    <ul class="dropdown-menu">
+                        {{#each stations}}
+                        <li><button class="btn btn-outline-info rounded-pill"
+                                style="display: flex; margin: 2% 1%; width: 98%;"
+                                onclick="getAllStation('{{this.manager}}')">{{this.stationName}}</button>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body" id="stationDetails" style="display: none;">
+                <h5 id="curr" style="text-align: center;"></h5>
+                <div class="example">
+                    <div class="mb-3">
+                        <label class="form-label" for="newName" id="super">Super</label>
+                        <input class="form-control" type="text" aria-label="Recipient's username"
+                            aria-describedby="button-addon2" name="newName" aria-placeholder="currLocation" id="currSP"
+                            style="width:50%;" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="newName" id="premium">Premium</label>
+                        <input class="form-control" type="text" aria-label="Recipient's username"
+                            aria-describedby="button-addon2" name="newName" aria-placeholder="currLocation" id="currPP"
+                            style="width:50%;" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-coreui-toggle="modal"
+                        data-coreui-target="#renameStationModal">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="renameStationModal" data-coreui-backdrop="static" data-coreui-keyboard="false"
+            tabindex="-1" aria-labelledby="renameStationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="renameStationModalLabel">Rename Station</h5>
+                        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to change the fuel prices?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="updateStation()">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        let currSP = undefined
+        let currPP = undefined
+        let mgr = undefined
+
+        async function getAllStation(manager) {
+            let stationD = await fetch(`/api/getStationDetails/${manager}`)
+            let details = await stationD.json()
+            currSP = details.fuelPrice.super
+            currPP = details.fuelPrice.premium
+            mgr = details.manager
+            document.getElementById('curr').innerHTML = "Set fuel price for " + mgr + "'s station"
+            document.getElementById('currSP').placeholder = "Current super price " + currSP + " QAR"
+            document.getElementById('currPP').placeholder = "Current premium price " + currPP + " QAR"
+            document.getElementById('stationDetails').style.display = 'block';
+        }
+
+        async function updateStation() {
+            $('#renameStationModal').modal('show');
+            let currSP = document.getElementById('currSP').value
+            let currPP = document.getElementById('currPP').value
+            await fetch(`/api/setFuelPrice/${mgr}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ currSP: Number(currSP), currPP: Number(currPP) })
+            })
+
+            $('#renameStationModal').modal('hide');
+
+        }
+
+    </script>
+</body>
+
+</html>

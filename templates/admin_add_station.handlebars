@@ -1,0 +1,176 @@
+<!DOCTYPE html><!--
+* CoreUI - Free Bootstrap Admin Template
+* @version v4.2.2
+* @link https://coreui.io/product/free-bootstrap-admin-template/
+* Copyright (c) 2023 creativeLabs Łukasz Holeczek
+* Licensed under MIT (https://github.com/coreui/coreui-free-bootstrap-admin-template/blob/main/LICENSE)
+--><!-- Breadcrumb-->
+<html lang="en">
+
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>Add Station</title>
+
+    <link rel="manifest" href="/static/assets/favicon/manifest.json">
+    <link rel="icon" type="image/png" href="/static/petrol-icon3.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendors styles-->
+    <link rel="stylesheet" href="/static/vendors/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="/static/css/vendors/simplebar.css">
+    <!-- Main styles for this application-->
+    <link href="/static/css/style-new.css" rel="stylesheet">
+    <!-- We use those styles to show code examples, you should remove them in your application.-->
+    <link href="/static/css/examples.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Vendors styles-->
+
+    <!-- Main styles for this application-->
+    <!-- We use those styles to show code examples, you should remove them in your application.-->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        #form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 2%;
+        }
+
+        /* Style the select element */
+
+        select.ll {
+            background-color: #373a40;
+            /* Set the background color to grey */
+            padding: 8px;
+            /* Add some padding for better visual appearance */
+            border: 1px solid #000000;
+            /* Add a border for better visibility */
+            border-radius: 4px;
+            /* Add rounded corners */
+
+        }
+
+        /* Style the disabled options */
+        option:disabled {
+            background-color: #29292939;
+            /* Set the background color of disabled options */
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="wrapper d-flex flex-column ">
+        {{#if message}}
+        <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{message}}
+                <button class="btn-close" type="button" data-coreui-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {{/if}}
+        <div class="card mb-4">
+            <div class="card-header">
+                <strong style="text-align: center;">Station info</strong>
+            </div>
+            <div class="card-body">
+                <form id="form-container" class="card mb-3" action="/admin/addNewStation" method="post">
+                    <div class="card-body" style="margin: 17% 0%;">
+
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Station's name" name="name"
+                                aria-describedby="basic-addon1" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="text" id="latInput" class="form-control" placeholder="Station Location"
+                                name="location" required>
+                        </div>
+
+                        <div class="input-group mb-3 ">
+                            <select class="form-multi-select ll" data-coreui-multiple="false" data-coreui-search="true"
+                                name="selectedManager" required>
+                                <option value="" selected disabled>Select a Manager</option>
+                                {{#each managers}}
+                                {{#if (isTaken this.username ../taken)}}
+                                <option value="{{this.username}}" disabled>{{this.username}} (Already Taken)
+                                </option>
+                                {{else}}
+                                <option value="{{this.username}}">{{this.username}}</option>
+                                {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Fuel tanks Maximum(L):</span>
+                            <input type="number" class="form-control" placeholder="Super" name="maxSuper" required>
+                            <input type="number" class="form-control" placeholder="Premium" name="maxPremium" required>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Fuel prices(QAR):</span>
+                            <input class="form-control" placeholder="Super" name="priceSuper" required>
+                            <input class="form-control" placeholder="Premium" name="pricePremium" required>
+                        </div>
+                        <div class="btn-group" style="display:flex; text-align: center;" role="group"
+                            aria-label="Basic example">
+                            <input type="submit" value="Create Station" class="btn btn-info">
+                        </div>
+                    </div>
+                    <div class="card border-top-info">
+                        <div class="card-header">Station Location</div>
+                        <div class="card-body">
+                            <div id="map" style="height: 100%; width: 100%;">
+                                <div class="mapouter">
+                                    <div class="gmap_canvas"><iframe width="805" height="578" id="gmap_canvas" src=""
+                                            frameborder="0" scrolling="no" marginheight="0"
+                                            marginwidth="0"></iframe><br>
+                                        <style>
+                                            .mapouter {
+                                                position: relative;
+                                                text-align: right;
+                                                height: 100%;
+                                                width: 100%;
+                                            }
+                                        </style>
+                                        <style>
+                                            .gmap_canvas {
+                                                overflow: hidden;
+                                                background: none !important;
+                                                height: 100%;
+                                                width: 100%;
+                                            }
+                                        </style>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    async function updateMap() {
+        let loc = document.getElementById('latInput').value;
+        document.getElementById('gmap_canvas').src = "https://maps.google.com/maps?q=woqod+" + loc + "&t=&z=11&ie=UTF8&iwloc=&output=embed";
+    }
+
+    // Add an event listener to the input field
+    document.getElementById('latInput').addEventListener('input', updateMap);
+
+    // Call the updateMap function initially
+    updateMap();
+</script>
+
+</html>

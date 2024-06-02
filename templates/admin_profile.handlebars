@@ -1,0 +1,117 @@
+<!DOCTYPE html><!--
+* CoreUI - Free Bootstrap Admin Template
+* @version v4.2.2
+* @link https://coreui.io/product/free-bootstrap-admin-template/
+* Copyright (c) 2023 creativeLabs Łukasz Holeczek
+* Licensed under MIT (https://github.com/coreui/coreui-free-bootstrap-admin-template/blob/main/LICENSE)
+-->
+<html lang="en">
+
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>Profile</title>
+    <link rel="manifest" href="/static/assets/favicon/manifest.json">
+    <link rel="icon" type="image/png" href="/static/petrol-icon3.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendors styles-->
+    <link rel="stylesheet" href="/static/vendors/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="/static/css/vendors/simplebar.css">
+    <!-- Main styles for this application-->
+    <link href="/static/css/style-new.css" rel="stylesheet">
+    <!-- We use those styles to show code examples, you should remove them in your application.-->
+    <link href="/static/css/examples.css" rel="stylesheet">
+    <style>
+        .capitalize-first {
+            text-transform: capitalize;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.min.js"></script>
+
+</head>
+
+<body class="dark-theme">
+    <div class="bg-light min-vh-100 d-flex flex-row align-items-center dark:bg-transparent">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card-group d-block d-md-flex row">
+                        <div class="card col-md-7 p-4 mb-0">
+                            <div class="card-body">
+
+                                <form action="/update-admin-profile" method="post" id="button"
+                                    enctype="multipart/form-data">
+                                    <div class=" mb-3">
+                                        <strong style="color: red; text-align: center;" id="mssg">{{messagee}}</strong>
+                                        <input type="hidden" value="{{username}}" name="user" id="username">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="newPass">Current Password</label>
+                                        <input class="form-control" type="password" value="{{password}}"
+                                            aria-label="Recipient's username" aria-describedby="button-addon2"
+                                            name="currPass" placeholder="" id="currPass" style="width:100%;" required>
+
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="newPass">New
+                                            Password</label>
+                                        <input class="form-control" type="password" value="{{password}}"
+                                            aria-label="Recipient's username" aria-describedby="button-addon2"
+                                            name="newPassword" placeholder="" id="newPass" style="width:100%;">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="confirm">Confirm</label>
+                                        <input class="form-control" type="password" aria-label="Recipient's username"
+                                            aria-describedby="button-addon2" name="confirm" placeholder="" id="confirm"
+                                            style="width:100%;">
+                                    </div>
+                                    <div class=" mb-3">
+                                        <label class="form-label" for="pfp">Upload New pfp</label>
+                                        <input type="file" class="form-control" aria-label="Recipient's username"
+                                            aria-describedby="button-addon2" name="pfp" placeholder="" id="pfp"
+                                            style="width:100%;">
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button class="btn btn-success px-4" type="submit" form="button">Save</button>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <button class="btn btn-success px-4" type="button"><a href="/admin"
+                                                style="text-decoration: none;color: black;">Go Back</a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card col-md-5 text-white bg-success-gradient py-5">
+                            <div class="card-body text-center">
+                                <div>
+                                    <h2 class="capitalize-first">Mr. {{username}}'s profile</h2><br>
+                                    <h5>Current profile picture</h5>
+                                    <img src="/static/assets/img/avatars/{{username}}.png" width="100"
+                                        height="100"><br><br><br>
+                                    <h5>Your phone number is</h5>
+                                    <strong>{{phone}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+    <script src="/static/vendors/simplebar/js/simplebar.min.js"></script>
+    <script>
+    </script>
+
+</body>
+
+</html>

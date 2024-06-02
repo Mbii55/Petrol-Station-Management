@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager</title>
+    <base href="./">
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="/static/petrol-icon3.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <!-- Vendors styles-->
+    <link rel="stylesheet" href="/static/vendors/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="/static/css/vendors/simplebar.css">
+    <!-- Main styles for this application-->
+    <link href="/static/css/style-new.css" rel="stylesheet">
+</head>
+
+<body class="dark-theme">
+    <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+        <div class="sidebar-brand d-none d-md-flex">
+            <svg class="sidebar-brand-full" width="110" height="70" alt="CoreUI Logo">
+                <use xlink:href="/static/fuel-icon.svg#Layer_1"></use>
+            </svg>
+        </div>
+        <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+            <li class="nav-item"><a class="nav-link" href="/manager">
+                    <svg class="nav-icon">
+                        <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
+                    </svg> Dashboard<span class="badge badge-sm bg-info ms-auto"></span></a></li>
+            {{#if station}}
+            <li class="nav-title">Manage Station</li>
+            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+                    <svg class="nav-icon">
+                        <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-star"></use>
+                    </svg> Pages</a>
+                <ul class="nav-group-items">
+                    <li> <a class="nav-link" href="/manager/record-sales"><svg class="nav-icon">
+                                <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-money"></use>
+                            </svg> Record Sales<span class="badge badge-sm bg-info ms-auto"></span></a>
+                    </li>
+                    <li> <a class="nav-link" href="/manager/record-fuel"><svg class="nav-icon">
+                                <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
+                            </svg> Record Fuel<span class="badge badge-sm bg-info ms-auto"></span></a>
+                    </li>
+                </ul>
+                {{/if}}
+            </li>
+            <li> <a class="nav-link" href="/logout"><svg class="nav-icon">
+                        <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                    </svg> Logout<span class="badge badge-sm bg-info ms-auto"></span></a>
+            </li>
+        </ul>
+        <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
+    </div>
+    <div class="wrapper d-flex flex-column bg-light dark:bg-transparent">
+        <header class="header header-sticky mb-4">
+
+            <div class="container-fluid">
+                <button class="header-toggler px-md-0 me-md-3" type="button"
+                    onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+                    <svg class="icon icon-lg">
+                        <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+                    </svg>
+                </button><a class="header-brand d-md-none" href="/manager">
+                    <svg class="sidebar-brand-full" width="110" height="70" alt="CoreUI Logo">
+                        <use xlink:href="/static/fuel-icon.svg#Layer_1"></use>
+                    </svg>
+                </a>
+                <ul class="header-nav d-none d-md-flex">
+                    <li class="nav-item"><a class="nav-link" href="/manager">Dashboard</a></li>
+                </ul>
+                <nav class="header-nav ms-auto me-4">
+                    <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                        <input class="btn-check" id="btn-light-theme" type="radio" name="theme-switch"
+                            autocomplete="off" value="light" onchange="handleThemeChange(this)">
+                        <label class="btn btn-primary" for="btn-light-theme">
+                            <svg class="icon">
+                                <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-sun"></use>
+                            </svg>
+                        </label>
+                        <input class="btn-check" id="btn-dark-theme" type="radio" name="theme-switch" autocomplete="off"
+                            value="dark" onchange="handleThemeChange(this)">
+                        <label class="btn btn-primary" for="btn-dark-theme">
+                            <svg class="icon">
+                                <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-moon"></use>
+                            </svg>
+                        </label>
+                    </div>
+                </nav>
+                <ul class="header-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link">
+                            <svg class="icon icon-lg">
+                                <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+                            </svg></a></li>
+                    <li class="nav-item"><a class="nav-link">
+                            <svg class="icon icon-lg">
+                                <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-list-rich"></use>
+                            </svg></a></li>
+                    <li class="nav-item"><a class="nav-link">
+                            <svg class="icon icon-lg">
+                                <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-envelope-open">
+                                </use>
+                            </svg></a></li>
+                </ul>
+                <ul class="header-nav ms-3">
+                    <li class="nav-item dropdown">
+                        <a{{#if station}} class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false" {{/if}}>
+                            {{#if station}}
+                            <div class="avatar avatar-md"><img class="avatar-img"
+                                    src="/static/assets/img/avatars/{{manager}}.png" alt="user@email.com"></div>
+                            {{else}}
+                            <div class="avatar avatar-md"><img class="avatar-img" src="/static/user-icon.png"
+                                    alt="user@email.com"></div>
+                            {{/if}}
+
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end pt-0">
+                                <div class="dropdown-header bg-light py-2 dark:bg-transparent">
+                                    <div class="fw-semibold">Settings</div>
+                                </div>
+                                <a class="dropdown-item" href="/manager/user-profile">
+                                    <svg class="icon me-2">
+                                        <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                                    </svg> Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout">
+                                    <svg class="icon me-2">
+                                        <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-account-logout">
+                                        </use>
+                                    </svg> Logout</a>
+                            </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+    </div>
+
+    <!-- CoreUI and necessary plugins-->
+    <script src="/static/vendors/@coreui/coreui/js/coreui.bundle.min-new.js"></script>
+    <script src="/static/vendors/simplebar/js/simplebar.min-new.js"></script>
+    <!-- Plugins and scripts required by this view-->
+    <script src="/static/vendors/@coreui/utils/js/coreui-utils.js"></script>
+</body>
+<main class="main-content dark-theme">
+    <div class="body flex-grow-1 px-3 min-vh-100 bg-light dark:bg-transparent">
+        {{{ body }}}
+    </div>
+</main>
+
+<script>
+    function handleThemeChange() {
+        const body = document.body;
+        const mainContent = document.querySelector('.main-content');
+
+        if (body.classList.contains('dark-theme')) {
+            body.classList.remove('dark-theme');
+            mainContent.classList.remove('dark-theme');
+            body.classList.add('light-theme');
+            mainContent.classList.add('light-theme');
+        } else {
+            body.classList.remove('light-theme');
+            mainContent.classList.remove('light-theme');
+            body.classList.add('dark-theme');
+            mainContent.classList.add('dark-theme');
+        }
+    }
+</script>
+
+</html>

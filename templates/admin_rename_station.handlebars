@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            overflow: hidden;
+            /* Hide scrollbars */
+        }
+    </style>
+
+</head>
+
+<body class="">
+    <div class="wrapper d-flex flex-column ">
+        {{#if message}}
+        <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="fw-semibold">Holy guacamole!</div> {{message}} 😧
+                <button class="btn-close" type="button" data-coreui-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {{/if}}
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="dropdown-center" style="margin-left: 35%;">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-coreui-toggle="dropdown"
+                        aria-expanded="false" style=" width: 40%;">
+                        Select a Station
+                    </button>
+                    <ul class="dropdown-menu">
+                        {{#each stations}}
+                        <li><button class="btn btn-outline-info rounded-pill"
+                                style="display: flex; margin: 2% 1%; width: 98%;"
+                                onclick="getAllStation('{{this.manager}}')">{{this.stationName}}</button>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-body" id="stationDetails" style="display: none;">
+                <div class="example">
+                    <div class="mb-3">
+                        <label class="form-label" for="newName" id="curr"></label>
+                        <input class="form-control" type="text" aria-label="Recipient's username"
+                            aria-describedby="button-addon2" name="newName" aria-placeholder="currLocation"
+                            id="currName" style="width:50%;">
+                    </div>
+                    <button type="button" class="btn btn-primary px-4" onclick="updateStation()">Rename</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentName = undefined
+        let mgr = undefined
+        async function getAllStation(manager) {
+            let stationD = await fetch(`/api/getStationDetails/${manager}`)
+            let details = await stationD.json()
+            currentName = details.stationName
+            mgr = details.manager
+            document.getElementById('curr').innerHTML = "Rename " + mgr + "'s station name"
+            document.getElementById('currName').placeholder = currentName
+            document.getElementById('stationDetails').style.display = 'block';
+        }
+
+        async function updateStation() {
+
+            let newName = document.getElementById('currName').value
+            console.log(newName)
+            await fetch(`/api/renameStation/${mgr}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ newName: newName })
+            })
+
+            window.location.href = '/admin'
+        }
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html><!--
+* CoreUI - Free Bootstrap Admin Template
+* @version v4.2.2
+* @link https://coreui.io/product/free-bootstrap-admin-template/
+* Copyright (c) 2023 creativeLabs Łukasz Holeczek
+* Licensed under MIT (https://github.com/coreui/coreui-free-bootstrap-admin-template/blob/main/LICENSE)
+-->
+<html lang="en">
+
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>Register</title>
+    <link rel="icon" type="image/png" href="/static/petrol-icon3.png">
+   
+    <link rel="manifest" href="/static/assets/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendors styles-->
+    <link rel="stylesheet" href="/static/vendors/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="/static/css/vendors/simplebar.css">
+    <!-- Main styles for this application-->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <!-- We use those styles to show code examples, you should remove them in your application.-->
+    <link href="/static/css/examples.css" rel="stylesheet">
+</head>
+
+<body class="dark-theme">
+    <div class="bg-light min-vh-100 d-flex flex-row align-items-center dark:bg-transparent">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card mb-4 mx-4">
+                        <div class="card-body p-4">
+                            <h1>Register As A New Manager</h1>
+                            <p class="text-medium-emphasis">Fill In your Information</p>
+
+                            {{!-- the start of the form --}}
+                            <div id="error-message" style="color: red;"></div>
+                            <form method="post" id="button" action="/managerRegistration">
+                                <div class="input-group mb-3"><span class="input-group-text">
+                                        <svg class="icon">
+                                            <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+
+                                        </svg></span>
+                                    <input class="form-control" type="text" placeholder="Username" name="username"
+                                        required>
+                                </div>
+                                <div class="input-group mb-3"><span class="input-group-text">
+                                        <svg class="icon">
+                                            <use
+                                                xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-envelope-open">
+                                            </use>
+                                        </svg></span>
+                                    <input class="form-control" type="text" placeholder="Email" name="email" required>
+                                </div>
+                                <div class="input-group mb-3"><span class="input-group-text">
+                                        <svg class="icon">
+                                            <use xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-phone">
+                                            </use>
+                                        </svg></span>
+                                    <input class="form-control" type="tel" placeholder="Phone Number" name="phone"
+                                        required>
+                                </div>
+                                <div class="input-group mb-3"><span class="input-group-text">
+                                        <svg class="icon">
+                                            <use
+                                                xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-lock-locked">
+                                            </use>
+                                        </svg></span>
+                                    <input class="form-control" type="password" placeholder="Password" name="password"
+                                        required>
+                                </div>
+                                <div class="input-group mb-4"><span class="input-group-text">
+                                        <svg class="icon">
+                                            <use
+                                                xlink:href="/static/vendors/@coreui/icons/svg/free.svg#cil-lock-locked">
+                                            </use>
+                                        </svg></span>
+                                    <input class="form-control" type="password" placeholder="Confirm password"
+                                        name="repeatPassword" required>
+                                </div>
+                                <button class="btn btn-block btn-success" type="submit">Register</button>
+                            </form>
+                            {{!-- the end of the form --}}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+    <script src="vendors/simplebar/js/simplebar.min.js"></script>
+
+    {{!-- form validation file --}}
+    <script src="/static/js/form-validation.js"></script>
+
+</body>
+
+</html>

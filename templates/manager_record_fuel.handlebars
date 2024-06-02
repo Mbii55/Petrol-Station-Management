@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body class="">
+    <div class="wrapper d-flex flex-column ">
+        {{#if message}}
+        <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="fw-semibold">Holy guacamole!</div> {{message}} 🤔
+                <button class="btn-close" type="button" data-coreui-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {{/if}}
+        <div class="card mb-4">
+            <div class="card-header">
+                <strong>Recording the fuel amount received</strong>
+            </div>
+            <div class="card-body">
+                <div class="tab-content rounded-bottom">
+                    <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1006">
+                        <div class="input-group mb-3">
+                            <form action="/fuel-received" method="post" id="form">
+
+                                <label class="form-label" for="newPass">Super</label>
+                                <input class="form-control" type="text" placeholder="In Liter"
+                                    aria-label="Recipient's username" aria-describedby="button-addon2"
+                                    name="superReceived" required><br>
+                                <label class="form-label" for="newPass">Premium</label>
+                                <input class="form-control" type="text" placeholder="In Liter"
+                                    aria-label="Recipient's username" aria-describedby="button-addon2"
+                                    name="premiumReceived" required><br>
+                                <input type="submit" value="Save" class=" btn btn-primary" data-coreui-toggle="modal"
+                                    data-coreui-target="#staticBackdrop">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
