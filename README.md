@@ -1,5 +1,17 @@
 # Petrol Station Management System
 
+## Table of Contents
+- [Description](#description)
+- [Features](#features)
+  - [Public Viewers](#public-viewers)
+  - [Station Managers](#station-managers)
+  - [Administrators](#administrators)
+  - [All Logged-in Users](#all-logged-in-users)
+- [Installation and Setup](#installation-and-setup)
+  - [Prerequisites](#prerequisites)
+  - [Setting Up the Project](#setting-up-the-project)
+  - [Running the Application](#running-the-application)
+
 ## Description
 
 The Petrol Station Management System is a web-based application designed to facilitate the management of multiple petrol stations across Qatar. It enables administrators and station managers to monitor and control daily sales, fuel levels, and pricing via a central dashboard, utilizing the 'Core UI Admin Dashboard' style.
